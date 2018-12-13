@@ -7,8 +7,8 @@
 #include<math.h>
 
 typedef struct postfix {
-	double n;    //연산자, 숫자
-	short set;  //연산자 = 0, 숫자 = 1
+	double n;    //Operator, number
+	short set;  //Operator = 0, number = 1
 }Postfix;
 
 void calc(int input1, char math, int input2);
@@ -18,18 +18,18 @@ void Dcalc(int input);
 int Checks(char *s, Postfix *nums) {
 
 	if (s[1000] != 0)
-		return -1; //입력배열 초과
+		return -1; //Input array exceeded
 
 
 	int i, j;
-	int t = 0, tt = 0; //t가0 이면 정수 1이면 소수    tt가 0이면 양수 tt가 1이면 음수
-	double n = 0; //숫자 저장
-	double d = 1; //소수점 아래의 점을 표현하기 위한 값
+	int t = 0, tt = 0; //If t is 0, if tt is 0, if tt is 1, then negative
+	double n = 0; //Save number
+	double d = 1; //Value to represent the point below the decimal point
 	int nsp = 0;
-	int notminus = 0; //마이너스가 들어가야 하는지 아닌지 확인
-	int Parentheses = 0; //괄호 검사
+	int notminus = 0; //Determine whether a minus is required
+	int Parentheses = 0; //Parentheses check
 
-	for (i = 0; s[i] != 0; i++) {              //공백제거
+	for (i = 0; s[i] != 0; i++) {              //Remove spaces
 		if (s[i] == ' ') {
 			for (j = i; s[j] != 0; j++)
 				s[j] = s[j + 1];
@@ -41,31 +41,31 @@ int Checks(char *s, Postfix *nums) {
 	for (i = 0; s[i] != 0; i++) {
 		if ('0' <= s[i] && s[i] <= '9') {
 
-			if (t == 0) {           //t는 소수점 이하인지 정수부분인지 판단하는 변수
-				n *= 10;			//두자릿수 계산
-				n += s[i] - 48;    //아스키 코드이므로 48을 뺌
+			if (t == 0) {           //Variables that determine whether t is less than or equal to the decimal point
+				n *= 10;			//Calculate two digits
+				n += s[i] - 48;    //Because it is ASCII code
 			}
 			else {
-				d *= 0.1;          //소수아래 계산
+				d *= 0.1;          //Calculate under decimal
 				n += d * (s[i] - 48);
 			}
 		}
-		else if (s[i] == '.') {   //소수 이하이면 변수 값을 바꿈
+		else if (s[i] == '.') {   //Change the value of the variable to a decimal number
 			t = 1;
 		}
 		else if (s[i] == '-' && (i == 0 || s[i - 1] == '(' || s[i - 1] == '+' || s[i - 1] == '-' || s[i - 1] == '*' || s[i - 1] == '/' || s[i - 1] == '^' || s[i - 1] == '%')) {
-			//'s[i - 1] == ')' 이면 빼기를 뜯하므로 제외
-			//배열 s는 수식을 담는 문자열
+			//'s[i - 1] == ')' Except for minus subtraction
+			//The array 's' is a string containing the expression
 
 			if (s[i + 1] == '(' && tt == 1) {
 				s[i] = '+';
 				tt = 0;
 			}
-			else if (s[i + 1] == '(' || tt == 1)  //앞에 '('이면 -1이 생략된 것으로 제외 tt ==1 일경우는 -가 중복적으로 되기에 토글처럼 사용
+			else if (s[i + 1] == '(' || tt == 1)  //If '(' is omitted, -1 is omitted. If tt == 1, - is used as a toggle because it is redundant.
 				tt = 0;
 			else
 				tt = 1;
-			//tt는 음수인지 양수인지 구분해주는 토글 키
+			//tt is a toggle key that separates negative or positive numbers
 
 		}
 		else if ((s[i] == '*' || s[i] == '/' || s[i] == '%' || s[i] == '^') && ((i == 0 || s[i - 1] == '(' || s[i - 1] == '+' || s[i - 1] == '-' || s[i - 1] == '*' || s[i - 1] == '/' || s[i - 1] == '^' || s[i - 1] == '%') || !(('0' <= s[i + 1] && s[i + 1] <= '9') || s[i + 1] == '-' || s[i + 1] == '+'))) {
@@ -155,14 +155,14 @@ int Checks(char *s, Postfix *nums) {
 			}
 
 			if (Parentheses < 0)
-				return -2; //이상한 괄호
+				return -2; //Strange parentheses
 
 		}
 		else
-			return -3; // 이상한 문자
+			return -3; // Strange character
 	}
 	if (Parentheses != 0)
-		return -2; //이상한괄호
+		return -2; //Strange parentheses
 
 	if (i != 0) {
 		if (s[i - 1] != '(' && s[i - 1] != ')' && s[i - 1] != '+' && s[i - 1] != '-' && s[i - 1] != '*' && s[i - 1] != '/' && s[i - 1] != '^' && s[i - 1] != '%' && s[i - 1] != '!' && s[i - 1] != 1) {
