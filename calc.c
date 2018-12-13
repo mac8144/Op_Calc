@@ -520,6 +520,9 @@ int main()
             scanf("%d", &input);
             
             if(input == 0){
+		scanf("%1000[^\n]s", s);
+		cnt = Checks(s, nums);
+		    
                 for (i = 0; i < cnt; i++) {
 		        if (nums[i].set == 1)
 			        printf("%.2lf ", nums[i].n);
