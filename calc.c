@@ -4,7 +4,7 @@
 #include <unistd.h>
 #include <sys/wait.h>
 #include <stdlib.h>
-#include<math.h>
+#include <math.h>
 
 typedef struct postfix {
 	double n;    //Operator, number
@@ -520,6 +520,8 @@ int main()
             scanf("%d", &input);
             
             if(input == 0){
+		printf("Enter fomula\n>>");
+		getchar();
 		scanf("%1000[^\n]s", s);
 		cnt = Checks(s, nums);
 		    
@@ -554,18 +556,28 @@ int main()
                     
 		        printf("\n\n Calculation process : \n");
 		        printf("\n\n Result : %.2lf\n", Calculation(num, cnt));
+			exit(1);
 	            }
-                
-                else if (cnt == 0)
-		            printf("No Data.\n");
-	            else if (cnt == -1)
-	            	printf("Array Overflow!\n");
-	            else if (cnt == -2)
-		            printf("Parenthesis Error!\n");
-	            else if (cnt == -3)
-	            	printf("There are strange characters.\n");
-	            else if (cnt == -4)
-	            	printf("Operator Error!\n");
+                else if (cnt == 0){
+                    printf("No Data.\n");
+                    exit(1);
+                }
+                else if (cnt == -1){
+                    printf("Array Overflow!\n");
+                    exit(1);
+                }
+                else if (cnt == -2){
+                    printf("Parenthesis Error!\n");
+                    exit(1);
+                }
+                else if (cnt == -3){
+                    printf("There are strange characters.\n");
+                    exit(1);
+                }
+                else if (cnt == -4){
+                    printf("Operator Error!\n");
+                    exit(1);
+                }
 
 	            return 0;
             }
